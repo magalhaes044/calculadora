@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Conversão de Unidades</title>
+    <link rel="stylesheet" type="text/css" href="advanced.css">
+</head>
+<body>
+    <h1>Calculadora de Conversão de Unidades</h1>
+    
+    <div id="converter">
+        <div>
+            <label for="unidade_origem">Unidade de origem:</label>
+            <select id="unidade_origem">
+                <option value="">Selecione</option>
+                <optgroup label="Comprimento">
+                    <option value="metro">Metro</option>
+                    <option value="pe">Pé</option>
+                    <option value="quilometro">Quilômetro</option>
+                    <option value="milha">Milha</option>
+                </optgroup>
+                <optgroup label="Peso">
+                    <option value="quilograma">Quilograma</option>
+                    <option value="grama">Grama</option>
+                    <option value="libra">Libra</option>
+                    <option value="onca">Onça</option>
+                </optgroup>
+                <optgroup label="Temperatura">
+                    <option value="celsius">Celsius</option>
+                    <option value="fahrenheit">Fahrenheit</option>
+                    <option value="kelvin">Kelvin</option>
+                </optgroup>
+            </select>
+        </div>
+        
+        <div>
+            <label for="unidade_destino">Unidade de destino:</label>
+            <select id="unidade_destino">
+                <option value="">Selecione</option>
+                <optgroup label="Comprimento">
+                    <option value="metro">Metro</option>
+                    <option value="pe">Pé</option>
+                    <option value="quilometro">Quilômetro</option>
+                    <option value="milha">Milha</option>
+                </optgroup>
+                <optgroup label="Peso">
+                    <option value="quilograma">Quilograma</option>
+                    <option value="grama">Grama</option>
+                    <option value="libra">Libra</option>
+                    <option value="onca">Onça</option>
+                </optgroup>
+                <optgroup label="Temperatura">
+                    <option value="celsius">Celsius</option>
+                    <option value="fahrenheit">Fahrenheit</option>
+                    <option value="kelvin">Kelvin</option>
+                </optgroup>
+            </select>
+        </div>
+        
+        <div>
+            <label for="valor">Valor:</label>
+            <input type="number" id="valor">
+        </div>
+        
+        <button onclick="converter()">Converter</button>
+        
+        <div id="resultado"></div>
+    </div>
+    
+    <script src="advanced.js"></script>
+</body>
+</html>
