@@ -63,6 +63,7 @@
 
     .calculator .button.special {
       background-color: #303f9f;
+      text-decoration: none;
     }
 
     .calculator .button.special:hover {
@@ -84,28 +85,28 @@
     <input type="text" id="result" disabled>
 
     <div>
-      <button class="button special" onclick="toggleTheme()">Theme</button>
-      <button class="button special" onclick="toggleSound()">Sound</button>
-      <button class="button special" onclick="toggleHistory()">History</button>
-      <a href="advanced.html" class="button special">Advanced</a>
-      <button class="button" onclick="clearResult()">C</button>
-      <button class="button" onclick="deleteCharacter()">&larr;</button>
-      <button class="button operator" onclick="appendCharacter('/')">/</button>
-      <button class="button" onclick="appendCharacter('7')">7</button>
-      <button class="button" onclick="appendCharacter('8')">8</button>
-      <button class="button" onclick="appendCharacter('9')">9</button>
-      <button class="button operator" onclick="appendCharacter('*')">*</button>
-      <button class="button" onclick="appendCharacter('4')">4</button>
-      <button class="button" onclick="appendCharacter('5')">5</button>
-      <button class="button" onclick="appendCharacter('6')">6</button>
-      <button class="button operator" onclick="appendCharacter('-')">-</button>
       <button class="button" onclick="appendCharacter('1')">1</button>
       <button class="button" onclick="appendCharacter('2')">2</button>
       <button class="button" onclick="appendCharacter('3')">3</button>
+      <button class="button" onclick="appendCharacter('4')">4</button>
+      <button class="button" onclick="appendCharacter('5')">5</button>
+      <button class="button" onclick="appendCharacter('6')">6</button>
+      <button class="button" onclick="appendCharacter('7')">7</button>
+      <button class="button" onclick="appendCharacter('8')">8</button>
+      <button class="button" onclick="appendCharacter('9')">9</button>
+      <button class="button" onclick="clearResult()">C</button>
+      <button class="button" onclick="deleteCharacter()">&larr;</button>
+      <button class="button operator" onclick="appendCharacter('/')">/</button>
+      <button class="button operator" onclick="appendCharacter('*')">*</button>
+      <button class="button operator" onclick="appendCharacter('-')">-</button>
       <button class="button operator" onclick="appendCharacter('+')">+</button>
       <button class="button" onclick="appendCharacter('0')">0</button>
       <button class="button" onclick="appendCharacter('.')">.</button>
       <button class="button equal" onclick="calculate()">=</button>
+      <button class="button special" onclick="toggleTheme()">Theme</button>
+      <button class="button special" onclick="toggleSound()">Sound</button>
+      <button class="button special" onclick="toggleHistory()">History</button>
+      <a href="advanced.html" class="button special">Advanced</a>
       <button class="button special" onclick="rotateCalculator()">Rotate</button>
     </div>
   </div>
@@ -171,7 +172,7 @@
 
     function playSound() {
       if (soundEnabled) {
-        var audio = new Audio("button-sound.mp3");
+        var audio = new Audio("https://www.myinstants.com/pt/instant/minecraft-click/?utm_source=copy&utm_medium=share");
         audio.play();
       }
     }
