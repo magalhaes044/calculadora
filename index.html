@@ -77,35 +77,39 @@
     <input type="text" id="expression" readonly>
     <input type="text" id="result" readonly>
     <div>
-      <button class="button" onclick="clearExpression()">C</button>
       <button class="button" onclick="appendCharacter('/')">/</button>
       <button class="button" onclick="appendCharacter('*')">*</button>
       <button class="button" onclick="appendCharacter('-')">-</button>
+      <button class="button" onclick="appendCharacter('+')">+</button>
     </div>
     <div>
       <button class="button" onclick="appendCharacter('7')">7</button>
       <button class="button" onclick="appendCharacter('8')">8</button>
       <button class="button" onclick="appendCharacter('9')">9</button>
-      <button class="button" onclick="appendCharacter('+')">+</button>
+      <button class="button" onclick="appendCharacter('4')">4</button>
     </div>
     <div>
-      <button class="button" onclick="appendCharacter('4')">4</button>
       <button class="button" onclick="appendCharacter('5')">5</button>
       <button class="button" onclick="appendCharacter('6')">6</button>
-      <button class="button" onclick="appendCharacter('(')">(</button>
-    </div>
-    <div>
       <button class="button" onclick="appendCharacter('1')">1</button>
       <button class="button" onclick="appendCharacter('2')">2</button>
-      <button class="button" onclick="appendCharacter('3')">3</button>
-      <button class="button" onclick="appendCharacter(')')">)</button>
     </div>
     <div>
+      <button class="button" onclick="appendCharacter('3')">3</button>
       <button class="button" onclick="appendCharacter('0')">0</button>
       <button class="button" onclick="appendCharacter('.')">.</button>
+      <button class="button clear" onclick="clearExpression()">C</button>
+    </div>
+    <div>
       <button class="button" onclick="calculateResult()">=</button>
     </div>
     <div id="history"></div>
+    <div>
+      <button class="button" onclick="switchToStandard()">Calculadora Padrão</button>
+      <button class="button" onclick="switchToScientific()">Calculadora Científica</button>
+      <button class="button" onclick="switchToMassVolume()">Calculadora de Massa e Volume</button>
+      <button class="button" onclick="switchToFinance()">Calculadora Financeira</button>
+    </div>
   </div>
 
   <script>
@@ -113,6 +117,7 @@
     var result = document.getElementById('result');
     var history = document.getElementById('history');
     var historyList = [];
+    var currentCalculator = 'standard';
 
     function appendCharacter(char) {
       expression.value += char;
@@ -138,10 +143,39 @@
     function renderHistory() {
       history.innerHTML = '';
       for (var i = 0; i < historyList.length; i++) {
-        var calculationItem = document.createElement('div');
-        calculationItem.textContent = historyList[i];
-        history.appendChild(calculationItem);
+        var calculation = historyList[i];
+        var calculationElement = document.createElement('p');
+        calculationElement.textContent = calculation;
+        history.appendChild(calculationElement);
       }
+    }
+
+    function switchToStandard() {
+      currentCalculator = 'standard';
+      clearExpression();
+      historyList = [];
+      renderHistory();
+    }
+
+    function switchToScientific() {
+      currentCalculator = 'scientific';
+      clearExpression();
+      historyList = [];
+      renderHistory();
+    }
+
+    function switchToMassVolume() {
+      currentCalculator = 'massVolume';
+      clearExpression();
+      historyList = [];
+      renderHistory();
+    }
+
+    function switchToFinance() {
+      currentCalculator = 'finance';
+      clearExpression();
+      historyList = [];
+      renderHistory();
     }
   </script>
 </body>
