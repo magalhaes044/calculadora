@@ -64,6 +64,7 @@ function addExplanationStep(step) {
 function clearExplanation() {
   explanationIndex = 1;
   explanationSteps.innerHTML = "";
+  explanationBox.style.display = "none";
   explanationSteps.classList.remove("show");
 }
 
@@ -126,8 +127,13 @@ function generateExplanation(result) {
     explanation.push("O cálculo não resultou em um valor numérico.");
   }
 
+  let explanationBox = document.getElementById("explanationBox");
+  explanationBox.innerHTML = "<h3>Explicação do cálculo:</h3>";
+
   explanation.forEach((step) => {
-    addExplanationStep(step);
+    let paragraph = document.createElement("p");
+    paragraph.textContent = step;
+    explanationBox.appendChild(paragraph);
   });
 
   explanationSteps.classList.add("show");
