@@ -1,0 +1,92 @@
+body {
+    background-color: #2C2C2C;
+    color: #FFFFFF;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .calculator {
+    width: 400px;
+    margin: 20px auto;
+    background-color: #800080;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+  
+  #display {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+    font-size: 32px;
+    text-align: right;
+    padding: 10px;
+    border: none;
+    background-color: #461D55;
+    color: #FFFFFF;
+    box-sizing: border-box;
+  }
+  
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+    padding: 10px;
+  }
+  
+  button {
+    height: 60px;
+    background-color: #4B0082;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #8A2BE2;
+  }
+  
+  .explanation {
+    width: 500px;
+    margin: 20px auto;
+    background-color: #800080;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  h3 {
+    font-size: 24px;
+    margin: 0 0 10px;
+  }
+  
+  #explanationText {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  .step {
+    margin-bottom: 10px;
+  }
+  
+  .step:last-child {
+    margin-bottom: 0;
+  }
+  
+  .step-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #461D55;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .step-description {
+    font-size: 16px;
+    margin-left: 20px;
+  }

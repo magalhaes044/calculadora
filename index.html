@@ -64,6 +64,8 @@
     .calculator .button.special {
       background-color: #303f9f;
       text-decoration: none;
+      font-size: 18px;
+      text-align: center;
     }
 
     .calculator .button.special:hover {
@@ -78,28 +80,10 @@
     .calculator .button.equal:hover {
       background-color: #1565c0;
     }
-    .explanation {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #f9f9f9;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .explanation-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .explanation-step {
-      margin-bottom: 5px;
-    }
   </style>
 </head>
 <body>
   <div class="calculator" id="calculator">
-    <div class="explanation" id="outputExplanation"></div>
     <input type="text" id="result" disabled>
 
     <div>
@@ -122,9 +106,9 @@
       <button class="button" onclick="appendCharacter('.')">.</button>
       <button class="button equal" onclick="calculate()">=</button>
       <button class="button special" onclick="toggleTheme()">Theme</button>
-      <button class="button special" onclick="toggleSound()">Sound</button>
       <button class="button special" onclick="toggleHistory()">History</button>
-      <a href="advanced.html" class="button special">Unidades</a>
+      <a href="cientific.html" class="button special">Cientific</a>
+      <a href="advanced.html" class="button special">Convertor</a>
       <button class="button special" onclick="rotateCalculator()">Rotate</button>
     </div>
   </div>
@@ -214,23 +198,9 @@
     function calculate() {
       var result = document.getElementById("result").value;
       var answer = eval(result);
-      var outputExplanation = document.getElementById("outputExplanation");
-      outputExplanation.innerHTML = generateExplanation(inputExpression, result);
       document.getElementById("result").value = answer;
       playSound();
       history.push(result + "=" + answer + "\n");
-    }
-
-    function generateExplanation(expression, result) {
-      // Lógica para gerar a explicação passo a passo aqui
-      // Você pode analisar a expressão, identificar os passos envolvidos e criar uma explicação detalhada
-
-      var explanation = "<div class='explanation-title'>Explicação:</div>";
-      explanation += "<div class='explanation-step'>Passo 1: ...</div>";
-      explanation += "<div class='explanation-step'>Passo 2: ...</div>";
-      explanation += "<div class='explanation-step'>Passo 3: ...</div>";
-      explanation += "<div class='explanation-step'>Resultado: " + result + "</div>";
-      return explanation;
     }
 
     function rotateCalculator() {
