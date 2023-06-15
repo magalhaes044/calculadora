@@ -5,10 +5,12 @@
     <link rel="stylesheet" type="text/css" href="advanced.css">
 </head>
 <body>
-    <h1>Calculadora de Conversão de Unidades</h1>
+    <header>
+        <h1>Calculadora de Conversão de Unidades</h1>
+    </header>
     
     <div id="converter">
-        <div>
+        <div class="input-group">
             <label for="unidade_origem">Unidade de origem:</label>
             <select id="unidade_origem">
                 <option value="">Selecione</option>
@@ -17,10 +19,13 @@
                     <option value="pe">Pé</option>
                     <option value="quilometro">Quilômetro</option>
                     <option value="milha">Milha</option>
+                    <option value="centimetro">Centímetro</option>
+                    <option value="milimetro">Milímetro</option>
                 </optgroup>
                 <optgroup label="Peso">
                     <option value="quilograma">Quilograma</option>
                     <option value="grama">Grama</option>
+                    <option value="miligrama">Miligrama</option>
                     <option value="libra">Libra</option>
                     <option value="onca">Onça</option>
                 </optgroup>
@@ -32,7 +37,7 @@
             </select>
         </div>
         
-        <div>
+        <div class="input-group">
             <label for="unidade_destino">Unidade de destino:</label>
             <select id="unidade_destino">
                 <option value="">Selecione</option>
@@ -41,12 +46,20 @@
                     <option value="pe">Pé</option>
                     <option value="quilometro">Quilômetro</option>
                     <option value="milha">Milha</option>
+                    <option value="centimetro">Centímetro</option>
+                    <option value="milimetro">Milímetro</option>
                 </optgroup>
                 <optgroup label="Peso">
+                    <option value="Tonelada">Tonelada</option>
                     <option value="quilograma">Quilograma</option>
                     <option value="grama">Grama</option>
+                    <option value="miligrama">Miligrama</option>
                     <option value="libra">Libra</option>
                     <option value="onca">Onça</option>
+                </optgroup>
+                <optgroup label="Líquido">
+                    <option value="Litro">Litro</option>
+                    <option value="Mililitro">Mililitro</option>
                 </optgroup>
                 <optgroup label="Temperatura">
                     <option value="celsius">Celsius</option>
@@ -56,15 +69,19 @@
             </select>
         </div>
         
-        <div>
+        <div class="input-group">
             <label for="valor">Valor:</label>
             <input type="number" id="valor">
         </div>
         
-        <button onclick="converter()">Converter</button>
+        <button id="converter-btn">Converter</button>
         
         <div id="resultado"></div>
     </div>
+    
+    <footer>
+        <p>&copy; 2023 Calculadora de Conversão de Unidades</p>
+    </footer>
     
     <script src="advanced.js"></script>
 </body>
