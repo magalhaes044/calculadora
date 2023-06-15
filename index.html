@@ -58,14 +58,26 @@
     .calculator .button.clear:hover {
       background-color: #cc4665;
     }
+    
+    .calculator #history {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #5f4390;
+      border-radius: 5px;
+      overflow-y: scroll;
+      max-height: 200px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
   <div class="calculator">
     <h1>Calculadora</h1>
+    <input type="text" id="expression" readonly>
     <input type="text" id="result" readonly>
     <div>
-      <button class="button" onclick="clearResult()">C</button>
+      <button class="button" onclick="clearExpression()">C</button>
       <button class="button" onclick="appendCharacter('/')">/</button>
       <button class="button" onclick="appendCharacter('*')">*</button>
       <button class="button" onclick="appendCharacter('-')">-</button>
@@ -93,26 +105,43 @@
       <button class="button" onclick="appendCharacter('.')">.</button>
       <button class="button" onclick="calculateResult()">=</button>
     </div>
+    <div id="history"></div>
   </div>
 
   <script>
+    var expression = document.getElementById('expression');
+    var result = document.getElementById('result');
+    var history = document.getElementById('history');
+    var historyList = [];
+
     function appendCharacter(char) {
-      var result = document.getElementById('result');
-      result.value += char;
+      expression.value += char;
     }
-    
+
     function calculateResult() {
-      var result = document.getElementById('result');
       try {
-        result.value = eval(result.value);
+        var evaluatedResult = eval(expression.value);
+        var calculation = expression.value + ' = ' + evaluatedResult;
+        historyList.push(calculation);
+        renderHistory();
+        result.value = evaluatedResult;
       } catch (error) {
         result.value = 'Erro';
       }
     }
-    
-    function clearResult() {
-      var result = document.getElementById('result');
+
+    function clearExpression() {
+      expression.value = '';
       result.value = '';
+    }
+
+    function renderHistory() {
+      history.innerHTML = '';
+      for (var i = 0; i < historyList.length; i++) {
+        var calculationItem = document.createElement('div');
+        calculationItem.textContent = historyList[i];
+        history.appendChild(calculationItem);
+      }
     }
   </script>
 </body>
