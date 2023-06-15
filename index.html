@@ -1,182 +1,240 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
   <title>Calculadora</title>
   <style>
     body {
       background-color: #000;
+      color: #fff;
       font-family: Arial, sans-serif;
     }
-    
+
     .calculator {
-      max-width: 400px;
+      width: 300px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #6b52ae;
+      background-color: #6a1b9a;
       border-radius: 10px;
-      color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease-in-out;
     }
-    
-    .calculator h1 {
-      text-align: center;
+
+    .calculator.rotate {
+      transform: rotate(360deg);
     }
-    
+
     .calculator input[type="text"] {
       width: 100%;
-      padding: 10px;
+      height: 40px;
       margin-bottom: 10px;
+      padding: 5px;
       font-size: 18px;
-      color: #000;
-      background-color: #fff;
-      border: none;
-      border-radius: 5px;
     }
-    
+
     .calculator .button {
       display: inline-block;
-      width: 23%;
-      padding: 10px;
+      width: 70px;
+      height: 50px;
       margin: 5px;
+      padding: 5px;
+      font-size: 18px;
       text-align: center;
-      cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
-      background-color: #9b7ad5;
-      border: none;
+      vertical-align: middle;
+      background-color: #9575cd;
       color: #fff;
-    }
-    
-    .calculator .button:hover {
-      background-color: #815faa;
-    }
-    
-    .calculator .button.clear {
-      background-color: #ed577d;
-    }
-    
-    .calculator .button.clear:hover {
-      background-color: #cc4665;
-    }
-    
-    .calculator #history {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #5f4390;
+      border: none;
       border-radius: 5px;
-      overflow-y: scroll;
-      max-height: 200px;
-      font-size: 14px;
-      line-height: 1.4;
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .calculator .button:hover {
+      background-color: #7e57c2;
+      transform: scale(1.1);
+    }
+
+    .calculator .button.operator {
+      background-color: #512da8;
+    }
+
+    .calculator .button.operator:hover {
+      background-color: #4527a0;
+    }
+
+    .calculator .button.special {
+      background-color: #303f9f;
+    }
+
+    .calculator .button.special:hover {
+      background-color: #263992;
+    }
+
+    .calculator .button.equal {
+      background-color: #1976d2;
+      grid-column: span 2;
+    }
+
+    .calculator .button.equal:hover {
+      background-color: #1565c0;
     }
   </style>
 </head>
 <body>
-  <div class="calculator">
-    <h1>Calculadora</h1>
-    <input type="text" id="expression" readonly>
-    <input type="text" id="result" readonly>
+  <div class="calculator" id="calculator">
+    <input type="text" id="result" disabled>
+
     <div>
-      <button class="button" onclick="appendCharacter('/')">/</button>
-      <button class="button" onclick="appendCharacter('*')">*</button>
-      <button class="button" onclick="appendCharacter('-')">-</button>
-      <button class="button" onclick="appendCharacter('+')">+</button>
-    </div>
-    <div>
+      <button class="button special" onclick="toggleTheme()">Toggle Theme</button>
+      <button class="button special" onclick="toggleSound()">Toggle Sound</button>
+      <button class="button special" onclick="toggleHistory()">Toggle History</button>
+      <button class="button" onclick="clearResult()">C</button>
+      <button class="button" onclick="deleteCharacter()">&larr;</button>
+      <button class="button operator" onclick="appendCharacter('/')">/</button>
       <button class="button" onclick="appendCharacter('7')">7</button>
       <button class="button" onclick="appendCharacter('8')">8</button>
       <button class="button" onclick="appendCharacter('9')">9</button>
+      <button class="button operator" onclick="appendCharacter('*')">*</button>
       <button class="button" onclick="appendCharacter('4')">4</button>
-    </div>
-    <div>
       <button class="button" onclick="appendCharacter('5')">5</button>
       <button class="button" onclick="appendCharacter('6')">6</button>
+      <button class="button operator" onclick="appendCharacter('-')">-</button>
       <button class="button" onclick="appendCharacter('1')">1</button>
       <button class="button" onclick="appendCharacter('2')">2</button>
-    </div>
-    <div>
       <button class="button" onclick="appendCharacter('3')">3</button>
+      <button class="button operator" onclick="appendCharacter('+')">+</button>
       <button class="button" onclick="appendCharacter('0')">0</button>
       <button class="button" onclick="appendCharacter('.')">.</button>
-      <button class="button clear" onclick="clearExpression()">C</button>
-    </div>
-    <div>
-      <button class="button" onclick="calculateResult()">=</button>
-    </div>
-    <div id="history"></div>
-    <div>
-      <button class="button" onclick="switchToStandard()">Calculadora Padrão</button>
-      <button class="button" onclick="switchToScientific()">Calculadora Científica</button>
-      <button class="button" onclick="switchToMassVolume()">Calculadora de Massa e Volume</button>
-      <button class="button" onclick="switchToFinance()">Calculadora Financeira</button>
+      <button class="button equal" onclick="calculate()">=</button>
+      <button class="button special" onclick="rotateCalculator()">Rotate</button>
     </div>
   </div>
 
   <script>
-    var expression = document.getElementById('expression');
-    var result = document.getElementById('result');
-    var history = document.getElementById('history');
-    var historyList = [];
-    var currentCalculator = 'standard';
+    var currentTheme = "dark";
+    var soundEnabled = true;
+    var historyEnabled = false;
+    var history = [];
 
-    function appendCharacter(char) {
-      expression.value += char;
-    }
+    function toggleTheme() {
+      var body = document.body;
+      var calculator = document.getElementById("calculator");
+      var buttons = document.querySelectorAll(".button");
 
-    function calculateResult() {
-      try {
-        var evaluatedResult = eval(expression.value);
-        var calculation = expression.value + ' = ' + evaluatedResult;
-        historyList.push(calculation);
-        renderHistory();
-        result.value = evaluatedResult;
-      } catch (error) {
-        result.value = 'Erro';
+      if (currentTheme === "dark") {
+        body.style.backgroundColor = "#fff";
+        body.style.color = "#000";
+        calculator.style.backgroundColor = "#f3e5f5";
+        buttons.forEach(function(button) {
+          button.style.backgroundColor = "#673ab7";
+          button.style.color = "#fff";
+        });
+
+        currentTheme = "light";
+      } else {
+        body.style.backgroundColor = "#000";
+        body.style.color = "#fff";
+        calculator.style.backgroundColor = "#6a1b9a";
+        buttons.forEach(function(button) {
+          button.style.backgroundColor = "#9575cd";
+          button.style.color = "#fff";
+        });
+
+        currentTheme = "dark";
       }
     }
 
-    function clearExpression() {
-      expression.value = '';
-      result.value = '';
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
     }
 
-    function renderHistory() {
-      history.innerHTML = '';
-      for (var i = 0; i < historyList.length; i++) {
-        var calculation = historyList[i];
-        var calculationElement = document.createElement('p');
-        calculationElement.textContent = calculation;
-        history.appendChild(calculationElement);
+    function toggleHistory() {
+      var result = document.getElementById("result");
+      if (historyEnabled) {
+        result.value = "";
+        historyEnabled = false;
+      } else {
+        result.value = history.join("");
+        historyEnabled = true;
       }
     }
 
-    function switchToStandard() {
-      currentCalculator = 'standard';
-      clearExpression();
-      historyList = [];
-      renderHistory();
+    function playSound() {
+      if (soundEnabled) {
+        var audio = new Audio("button-sound.mp3");
+        audio.play();
+      }
     }
 
-    function switchToScientific() {
-      currentCalculator = 'scientific';
-      clearExpression();
-      historyList = [];
-      renderHistory();
+    function clearResult() {
+      document.getElementById("result").value = "";
+      playSound();
     }
 
-    function switchToMassVolume() {
-      currentCalculator = 'massVolume';
-      clearExpression();
-      historyList = [];
-      renderHistory();
+    function deleteCharacter() {
+      var result = document.getElementById("result").value;
+      document.getElementById("result").value = result.slice(0, -1);
+      playSound();
     }
 
-    function switchToFinance() {
-      currentCalculator = 'finance';
-      clearExpression();
-      historyList = [];
-      renderHistory();
+    function appendCharacter(character) {
+      document.getElementById("result").value += character;
+      playSound();
     }
+
+    function calculate() {
+      var result = document.getElementById("result").value;
+      var answer = eval(result);
+      document.getElementById("result").value = answer;
+      playSound();
+      history.push(result + "=" + answer + "\n");
+    }
+
+    function rotateCalculator() {
+      var calculator = document.getElementById("calculator");
+      calculator.classList.toggle("rotate");
+    }
+
+    // New Advanced Systems
+
+    var lastKeyPressed = null;
+    var keyPressTimeout = null;
+
+    document.addEventListener("keydown", function(event) {
+      clearTimeout(keyPressTimeout);
+
+      var key = event.key;
+      if (key === "Enter") {
+        calculate();
+      } else if (key === "Escape") {
+        clearResult();
+      } else if (key === "Backspace") {
+        deleteCharacter();
+      } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+        appendCharacter(key);
+      } else if (key === "." || (key >= "0" && key <= "9")) {
+        appendCharacter(key);
+      } else if (key === "ArrowUp" || key === "ArrowDown") {
+        toggleTheme();
+      } else if (key === "ArrowLeft" || key === "ArrowRight") {
+        toggleSound();
+      }
+
+      lastKeyPressed = key;
+
+      keyPressTimeout = setTimeout(function() {
+        lastKeyPressed = null;
+      }, 200);
+    });
+
+    document.addEventListener("keyup", function(event) {
+      clearTimeout(keyPressTimeout);
+
+      if (lastKeyPressed === "ArrowUp" || lastKeyPressed === "ArrowDown") {
+        rotateCalculator();
+      }
+
+      lastKeyPressed = null;
+    });
   </script>
 </body>
 </html>
