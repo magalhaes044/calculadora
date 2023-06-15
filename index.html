@@ -87,6 +87,7 @@
       <button class="button special" onclick="toggleTheme()">Toggle Theme</button>
       <button class="button special" onclick="toggleSound()">Toggle Sound</button>
       <button class="button special" onclick="toggleHistory()">Toggle History</button>
+      <button class="button special" onclick="toggleAdvanced()">Toggle Advanced</button>
       <button class="button" onclick="clearResult()">C</button>
       <button class="button" onclick="deleteCharacter()">&larr;</button>
       <button class="button operator" onclick="appendCharacter('/')">/</button>
@@ -113,6 +114,7 @@
     var currentTheme = "dark";
     var soundEnabled = true;
     var historyEnabled = false;
+    var advancedEnabled = false;
     var history = [];
 
     function toggleTheme() {
@@ -156,6 +158,15 @@
         result.value = history.join("");
         historyEnabled = true;
       }
+    }
+
+    function toggleAdvanced() {
+      advancedEnabled = !advancedEnabled;
+
+      var advancedButtons = document.querySelectorAll(".advanced");
+      advancedButtons.forEach(function(button) {
+        button.style.display = advancedEnabled ? "inline-block" : "none";
+      });
     }
 
     function playSound() {
@@ -213,10 +224,12 @@
         appendCharacter(key);
       } else if (key === "." || (key >= "0" && key <= "9")) {
         appendCharacter(key);
-      } else if (key === "ArrowUp" || key === "ArrowDown") {
-        toggleTheme();
-      } else if (key === "ArrowLeft" || key === "ArrowRight") {
+      } else if (key === "h") {
+        toggleHistory();
+      } else if (key === "s") {
         toggleSound();
+      } else if (key === "a") {
+        toggleAdvanced();
       }
 
       lastKeyPressed = key;
