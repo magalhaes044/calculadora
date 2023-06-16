@@ -3,7 +3,6 @@ let explanationSteps = document.getElementById("explanationSteps");
 let explanationIndex = 1;
 let explanation = [];
 let calculationsHistory = [];
-let currentCalculationIndex = -1;
 let scientificMode = false;
 
 function appendCharacter(char) {
@@ -47,6 +46,7 @@ function calculate() {
   };
   calculationsHistory.push(calculation);
 
+  // Atualiza o histórico exibido
   const calcHistoryElement = document.getElementById('calc-history');
   calcHistoryElement.innerHTML = '';
 
@@ -182,49 +182,4 @@ function generateExplanation(result) {
   });
 
   explanationSteps.classList.add("show");
-}
-
-function showCalculationDetails(index) {
-  const calcDetailsElement = document.getElementById('calc-details');
-  const expressionElement = document.getElementById('calc-expression');
-  const resultElement = document.getElementById('calc-result');
-
-  expressionElement.textContent = `Expressão: ${calculationsHistory[index].expression}`;
-  resultElement.textContent = `Resultado: ${calculationsHistory[index].result}`;
-
-  calcDetailsElement.style.display = 'block';
-}
-
-function editCalculation() {
-  const display = document.getElementById('display');
-  const currentCalculation = calculationsHistory[currentCalculationIndex];
-  display.value = currentCalculation.expression;
-  removeCalculationDetails();
-}
-
-function saveCalculationResult() {
-  const currentCalculation = calculationsHistory[currentCalculationIndex];
-  currentCalculation.savedResult = currentCalculation.result;
-  removeCalculationDetails();
-}
-
-function deleteCalculation() {
-  calculationsHistory.splice(currentCalculationIndex, 1);
-  const calcHistoryElement = document.getElementById('calc-history');
-  calcHistoryElement.removeChild(calcHistoryElement.childNodes[currentCalculationIndex]);
-  removeCalculationDetails();
-}
-
-function removeCalculationDetails() {
-  const calcDetailsElement = document.getElementById('calc-details');
-  const expressionElement = document.getElementById('calc-expression');
-  const resultElement = document.getElementById('calc-result');
-
-  calcDetailsElement.style.display = 'none';
-  expressionElement.textContent = '';
-  resultElement.textContent = '';
-  document.getElementById('clear-history-btn').addEventListener('click', clearHistory);
-  document.getElementById('edit-calc-btn').addEventListener('click', editCalculation);
-  document.getElementById('save-result-btn').addEventListener('click', saveCalculationResult);
-  document.getElementById('delete-calc-btn').addEventListener('click', deleteCalculation);
 }

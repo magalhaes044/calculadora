@@ -135,26 +135,12 @@ body {
   .history li {
     margin-bottom: 5px;
     overflow-wrap: break-word;
-    cursor: pointer;
   }
   
-  .history li:hover {
-    background-color: #e6e6e6;
+  .history li .calculation {
+    font-weight: bold;
   }
   
-  .calc-details {
-    display: none;
-    margin-top: 10px;
-  }
-  
-  .calc-details h4 {
-    margin-top: 0;
-  }
-  
-  .calc-details p {
-    margin-bottom: 5px;
-  }
-  
-  .calc-details button {
-    margin-right: 5px;
+  .history li .explanation {
+    margin-left: 15px;
   }
