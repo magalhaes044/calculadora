@@ -2,6 +2,7 @@ let display = document.getElementById("display");
 let explanationSteps = document.getElementById("explanationSteps");
 let explanationIndex = 1;
 let explanation = [];
+let calculationsHistory = [];
 let scientificMode = false;
 
 function appendCharacter(char) {
@@ -23,14 +24,28 @@ function calculate() {
   let result;
   try {
     result = eval(display.value);
+    result = eval(expression);
     display.value = result;
     generateExplanation(result);
   } catch (error) {
     result = "Erro";
     addExplanationStep("Erro na expressão.");
   }
-}
+  const calculation = `${expression} = ${result}`;
+  calculationsHistory.push(calculation);
 
+  const historyElement = document.getElementById('history');
+  historyElement.innerHTML = '';
+
+  calculationsHistory.forEach((calc) => {
+    historyElement.innerHTML += `<p>${calc}</p>`;
+  });
+}
+function clearHistory() {
+  calculationsHistory = [];
+  const historyElement = document.getElementById('history');
+  historyElement.innerHTML = '';
+}
  
 function setCursor() {
   display.focus();

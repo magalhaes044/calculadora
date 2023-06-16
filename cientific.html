@@ -10,37 +10,37 @@
     <div class="buttons">
       <button onclick="clearDisplay()">C</button>
       <button onclick="deleteLastCharacter()">&larr;</button>
-      <button onclick="setCursor()">`´</button>
+      <button onclick="setCursor()">S</button>
       <button onclick="deleteAfterCursor()">⇇</button>
+      <button onclick="appendCharacter('+')">+</button>
       <button onclick="appendCharacter('1')">1</button>
       <button onclick="appendCharacter('2')">2</button>
       <button onclick="appendCharacter('3')">3</button>
-      <button onclick="appendCharacter('/')">÷</button>
       <button onclick="appendCharacter('4')">4</button>
+      <button onclick="appendCharacter('-')">-</button>
       <button onclick="appendCharacter('5')">5</button>
       <button onclick="appendCharacter('6')">6</button>
-      <button onclick="appendCharacter('*')">×</button>
       <button onclick="appendCharacter('7')">7</button>
       <button onclick="appendCharacter('8')">8</button>
+      <button onclick="appendCharacter('*')">×</button>
       <button onclick="appendCharacter('9')">9</button>
-      <button onclick="appendCharacter('-')">-</button>
       <button onclick="appendCharacter('0')">0</button>
-      <button onclick="appendCharacter('.')">.</button>
-      <button onclick="appendCharacter('+')">+</button>
       <button onclick="appendCharacter('(')">(</button>
       <button onclick="appendCharacter(')')">)</button>
+      <button onclick="appendCharacter('/')">÷</button>
+      <button onclick="appendCharacter('.')">.</button>
       <button onclick="appendCharacter('deg')">º</button>
       <button onclick="appendCharacter('%')">%</button>
-      <button onclick="calculate()">=</button>
-      <button onclick="toggleScientificMode()">Modo Científico</button>
       <button class="scientific hidden" onclick="appendCharacter('Math.sqrt(')">√</button>
+      <button onclick="calculate()">=</button>
+      <button class="scientific hidden" onclick="appendCharacter('Math.log(')">log</button>
       <button class="scientific hidden" onclick="appendCharacter('Math.sin(')">sin</button>
       <button class="scientific hidden" onclick="appendCharacter('Math.cos(')">cos</button>
       <button class="scientific hidden" onclick="appendCharacter('Math.tan(')">tan</button>
-      <button class="scientific hidden" onclick="appendCharacter('Math.log(')">log</button>
+      <button onclick="toggleScientificMode()">Cientific</button>
       <button class="scientific hidden" onclick="appendCharacter('Math.pow(')">x<sup>y</sup></button>
-      <button class="advanced" onclick="appendCharacter('Math.PI')">π</button>
       <button class="advanced" onclick="appendCharacter('Math.E')">e</button>
+      <button class="advanced" onclick="appendCharacter('Math.PI')">π</button>
       <button class="advanced" onclick="appendCharacter('Math.abs(')">|x|</button>
       <button class="advanced" onclick="appendCharacter('Math.floor(')">⌊x⌋</button>
       <button class="advanced" onclick="appendCharacter('Math.ceil(')">⌈x⌉</button>
@@ -51,6 +51,7 @@
   <div id="explanationBox" class="explanation-box"></div>
     <h3>Explicação Passo a Passo:</h3>
     <div id="explanationSteps"></div>
+    <div id="history" class="history"></div>
   </div>
   
   <script src="cientific.js"></script>
