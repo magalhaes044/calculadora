@@ -22,45 +22,40 @@ function deleteLastCharacter() {
 }
 
 function calculate() {
+  let result;
   const display = document.getElementById('display');
   const expression = display.value;
 
   try {
-    const result = eval(expression); // Avalia a expressão
-
-    // Exibe o resultado na calculadora
+    result = eval(display.value);
+    result = eval(expression);
     display.value = result;
-
-    // Gera a explicação passo a passo
-    const explanationSteps = document.createElement('div');
-    explanationSteps.className = 'explanation-steps';
+    const explanationSteps = document.getElementById('explanation-steps');
+    explanationSteps.innerHTML = '';
 
     const explanation = `Passo 1: Substitua a expressão "${expression}" por "${result}".`;
-    explanationSteps.innerHTML = `<p>${explanation}</p>`;
-
-    // Adiciona o cálculo ao histórico
-    const calculation = {
-      expression,
-      result,
-      explanationSteps: [explanation],
-      savedResult: null
-    };
-    calculationsHistory.push(calculation);
-    currentCalculationIndex = calculationsHistory.length - 1;
-
-    // Exibe o cálculo no histórico
-    const calcHistoryElement = document.getElementById('calc-history');
-    const calcItem = document.createElement('li');
-    calcItem.textContent = expression;
-    calcItem.addEventListener('click', () => showCalculationDetails(currentCalculationIndex));
-    calcHistoryElement.appendChild(calcItem);
-
-    // Limpa o display
-    clearDisplay();
+    explanationSteps.innerHTML += `<p>${explanation}</p>`;
+    generateExplanation(result);
   } catch (error) {
-    // Exibe uma mensagem de erro caso a expressão seja inválida
-    display.value = 'Erro';
+    result = "Erro";
+    addExplanationStep("Erro na expressão.");
   }
+  const calculation = {
+    expression,
+    result,
+    explanation
+  };
+  calculationsHistory.push(calculation);
+
+  const calcHistoryElement = document.getElementById('calc-history');
+  calcHistoryElement.innerHTML = '';
+
+  calculationsHistory.forEach((calc) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="calculation">${calc.expression} = ${calc.result}</span><br>
+                    <span class="explanation">${calc.explanation}</span>`;
+    calcHistoryElement.appendChild(li);
+  });
 }
 
 function clearHistory() {
