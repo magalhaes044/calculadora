@@ -11,15 +11,23 @@
       <!-- Botões existentes na calculadora -->
     </div>
   </div>
-  <div id="explanation-steps" class="explanation-steps"></div>
   <div id="history" class="history">
     <h3>Histórico de Cálculos</h3>
     <ul id="calc-history"></ul>
+    <div id="calc-details" class="calc-details">
+      <h4>Detalhes do Cálculo</h4>
+      <p id="calc-expression"></p>
+      <p id="calc-result"></p>
+      <button id="edit-calc-btn">Editar</button>
+      <button id="save-result-btn">Salvar Resultado</button>
+      <button id="delete-calc-btn">Excluir</button>
+    </div>
     <button id="clear-history-btn">Limpar Histórico</button>
   </div>
   <script src="script.js"></script>
 </body>
 </html>
+
 /* Estilos CSS existentes */
 
 .history {
@@ -43,19 +51,35 @@
 .history li {
   margin-bottom: 5px;
   overflow-wrap: break-word;
+  cursor: pointer;
 }
 
-.history li .calculation {
-  font-weight: bold;
+.history li:hover {
+  background-color: #e6e6e6;
 }
 
-.history li .explanation {
-  margin-left: 15px;
+.calc-details {
+  display: none;
+  margin-top: 10px;
 }
+
+.calc-details h4 {
+  margin-top: 0;
+}
+
+.calc-details p {
+  margin-bottom: 5px;
+}
+
+.calc-details button {
+  margin-right: 5px;
+}
+
 <script>
 
-// Variável para armazenar o histórico de cálculos
+// Variáveis globais
 let calculationsHistory = [];
+let currentCalculationIndex = -1;
 
 // Função para adicionar caracteres ao display
 function appendCharacter(character) {
@@ -87,34 +111,83 @@ function calculate() {
     display.value = result;
 
     // Gera a explicação passo a passo
-    const explanationSteps = document.getElementById('explanation-steps');
-    explanationSteps.innerHTML = '';
+    const explanationSteps = document.createElement('div');
+    explanationSteps.className = 'explanation-steps';
 
     const explanation = `Passo 1: Substitua a expressão "${expression}" por "${result}".`;
-    explanationSteps.innerHTML += `<p>${explanation}</p>`;
+    explanationSteps.innerHTML = `<p>${explanation}</p>`;
 
     // Adiciona o cálculo ao histórico
     const calculation = {
       expression,
       result,
-      explanation
+      explanationSteps: [explanation],
+      savedResult: null
     };
     calculationsHistory.push(calculation);
+    currentCalculationIndex = calculationsHistory.length - 1;
 
-    // Atualiza o histórico exibido
+    // Exibe o cálculo no histórico
     const calcHistoryElement = document.getElementById('calc-history');
-    calcHistoryElement.innerHTML = '';
+    const calcItem = document.createElement('li');
+    calcItem.textContent = expression;
+    calcItem.addEventListener('click', () => showCalculationDetails(currentCalculationIndex));
+    calcHistoryElement.appendChild(calcItem);
 
-    calculationsHistory.forEach((calc) => {
-      const li = document.createElement('li');
-      li.innerHTML = `<span class="calculation">${calc.expression} = ${calc.result}</span><br>
-                      <span class="explanation">${calc.explanation}</span>`;
-      calcHistoryElement.appendChild(li);
-    });
+    // Limpa o display
+    clearDisplay();
   } catch (error) {
     // Exibe uma mensagem de erro caso a expressão seja inválida
     display.value = 'Erro';
   }
+}
+
+// Função para exibir os detalhes de um cálculo
+function showCalculationDetails(index) {
+  const calcDetailsElement = document.getElementById('calc-details');
+  const expressionElement = document.getElementById('calc-expression');
+  const resultElement = document.getElementById('calc-result');
+
+  // Atualiza os detalhes do cálculo
+  expressionElement.textContent = `Expressão: ${calculationsHistory[index].expression}`;
+  resultElement.textContent = `Resultado: ${calculationsHistory[index].result}`;
+
+  // Exibe os detalhes do cálculo
+  calcDetailsElement.style.display = 'block';
+}
+
+// Função para editar um cálculo
+function editCalculation() {
+  const display = document.getElementById('display');
+  const currentCalculation = calculationsHistory[currentCalculationIndex];
+  display.value = currentCalculation.expression;
+  removeCalculationDetails();
+}
+
+// Função para salvar o resultado de um cálculo
+function saveCalculationResult() {
+  const currentCalculation = calculationsHistory[currentCalculationIndex];
+  currentCalculation.savedResult = currentCalculation.result;
+  removeCalculationDetails();
+}
+
+// Função para excluir um cálculo
+function deleteCalculation() {
+  calculationsHistory.splice(currentCalculationIndex, 1);
+  const calcHistoryElement = document.getElementById('calc-history');
+  calcHistoryElement.removeChild(calcHistoryElement.childNodes[currentCalculationIndex]);
+  removeCalculationDetails();
+}
+
+// Função para remover os detalhes de um cálculo
+function removeCalculationDetails() {
+  const calcDetailsElement = document.getElementById('calc-details');
+  const expressionElement = document.getElementById('calc-expression');
+  const resultElement = document.getElementById('calc-result');
+
+  calcDetailsElement.style.display = 'none';
+  expressionElement.textContent = '';
+  resultElement.textContent = '';
 }
 
 // Função para limpar o histórico de cálculos
@@ -122,8 +195,13 @@ function clearHistory() {
   calculationsHistory = [];
   const calcHistoryElement = document.getElementById('calc-history');
   calcHistoryElement.innerHTML = '';
+  removeCalculationDetails();
 }
 
 // Adiciona os ouvintes de eventos aos botões
 document.getElementById('clear-history-btn').addEventListener('click', clearHistory);
+document.getElementById('edit-calc-btn').addEventListener('click', editCalculation);
+document.getElementById('save-result-btn').addEventListener('click', saveCalculationResult);
+document.getElementById('delete-calc-btn').addEventListener('click', deleteCalculation);
+
 </script>

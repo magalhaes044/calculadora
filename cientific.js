@@ -3,6 +3,7 @@ let explanationSteps = document.getElementById("explanationSteps");
 let explanationIndex = 1;
 let explanation = [];
 let calculationsHistory = [];
+let currentCalculationIndex = -1;
 let scientificMode = false;
 
 function appendCharacter(char) {
@@ -21,41 +22,45 @@ function deleteLastCharacter() {
 }
 
 function calculate() {
-  let result;
   const display = document.getElementById('display');
   const expression = display.value;
 
   try {
-    result = eval(display.value);
-    result = eval(expression);
+    const result = eval(expression); // Avalia a expressão
+
+    // Exibe o resultado na calculadora
     display.value = result;
-    const explanationSteps = document.getElementById('explanation-steps');
-    explanationSteps.innerHTML = '';
+
+    // Gera a explicação passo a passo
+    const explanationSteps = document.createElement('div');
+    explanationSteps.className = 'explanation-steps';
 
     const explanation = `Passo 1: Substitua a expressão "${expression}" por "${result}".`;
-    explanationSteps.innerHTML += `<p>${explanation}</p>`;
-    generateExplanation(result);
+    explanationSteps.innerHTML = `<p>${explanation}</p>`;
+
+    // Adiciona o cálculo ao histórico
+    const calculation = {
+      expression,
+      result,
+      explanationSteps: [explanation],
+      savedResult: null
+    };
+    calculationsHistory.push(calculation);
+    currentCalculationIndex = calculationsHistory.length - 1;
+
+    // Exibe o cálculo no histórico
+    const calcHistoryElement = document.getElementById('calc-history');
+    const calcItem = document.createElement('li');
+    calcItem.textContent = expression;
+    calcItem.addEventListener('click', () => showCalculationDetails(currentCalculationIndex));
+    calcHistoryElement.appendChild(calcItem);
+
+    // Limpa o display
+    clearDisplay();
   } catch (error) {
-    result = "Erro";
-    addExplanationStep("Erro na expressão.");
+    // Exibe uma mensagem de erro caso a expressão seja inválida
+    display.value = 'Erro';
   }
-  const calculation = {
-    expression,
-    result,
-    explanation
-  };
-  calculationsHistory.push(calculation);
-
-  // Atualiza o histórico exibido
-  const calcHistoryElement = document.getElementById('calc-history');
-  calcHistoryElement.innerHTML = '';
-
-  calculationsHistory.forEach((calc) => {
-    const li = document.createElement('li');
-    li.innerHTML = `<span class="calculation">${calc.expression} = ${calc.result}</span><br>
-                    <span class="explanation">${calc.explanation}</span>`;
-    calcHistoryElement.appendChild(li);
-  });
 }
 
 function clearHistory() {
@@ -182,4 +187,49 @@ function generateExplanation(result) {
   });
 
   explanationSteps.classList.add("show");
+}
+
+function showCalculationDetails(index) {
+  const calcDetailsElement = document.getElementById('calc-details');
+  const expressionElement = document.getElementById('calc-expression');
+  const resultElement = document.getElementById('calc-result');
+
+  expressionElement.textContent = `Expressão: ${calculationsHistory[index].expression}`;
+  resultElement.textContent = `Resultado: ${calculationsHistory[index].result}`;
+
+  calcDetailsElement.style.display = 'block';
+}
+
+function editCalculation() {
+  const display = document.getElementById('display');
+  const currentCalculation = calculationsHistory[currentCalculationIndex];
+  display.value = currentCalculation.expression;
+  removeCalculationDetails();
+}
+
+function saveCalculationResult() {
+  const currentCalculation = calculationsHistory[currentCalculationIndex];
+  currentCalculation.savedResult = currentCalculation.result;
+  removeCalculationDetails();
+}
+
+function deleteCalculation() {
+  calculationsHistory.splice(currentCalculationIndex, 1);
+  const calcHistoryElement = document.getElementById('calc-history');
+  calcHistoryElement.removeChild(calcHistoryElement.childNodes[currentCalculationIndex]);
+  removeCalculationDetails();
+}
+
+function removeCalculationDetails() {
+  const calcDetailsElement = document.getElementById('calc-details');
+  const expressionElement = document.getElementById('calc-expression');
+  const resultElement = document.getElementById('calc-result');
+
+  calcDetailsElement.style.display = 'none';
+  expressionElement.textContent = '';
+  resultElement.textContent = '';
+  document.getElementById('clear-history-btn').addEventListener('click', clearHistory);
+  document.getElementById('edit-calc-btn').addEventListener('click', editCalculation);
+  document.getElementById('save-result-btn').addEventListener('click', saveCalculationResult);
+  document.getElementById('delete-calc-btn').addEventListener('click', deleteCalculation);
 }
