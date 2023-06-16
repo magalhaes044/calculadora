@@ -31,6 +31,18 @@ function calculate() {
   }
 }
 
+ 
+function setCursor() {
+  display.focus();
+  display.setSelectionRange(5, 5); // Defina a posição do cursor conforme necessário
+}
+
+function deleteAfterCursor() {
+  let cursorPosition = display.selectionStart;
+  display.value = display.value.substring(0, cursorPosition);
+  clearExplanation();
+}
+
 function toggleScientificMode() {
   scientificMode = !scientificMode;
   let scientificButtons = document.getElementsByClassName("scientific");
