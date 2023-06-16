@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculadora Científica</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="display" readonly>
+    <div class="buttons">
+      <!-- Botões existentes na calculadora -->
+    </div>
+  </div>
+  <div id="explanation-steps" class="explanation-steps"></div>
+  <div id="history" class="history">
+    <h3>Histórico de Cálculos</h3>
+    <ul id="calc-history"></ul>
+    <button id="clear-history-btn">Limpar Histórico</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+/* Estilos CSS existentes */
+
+.history {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.history h3 {
+  margin-top: 0;
+}
+
+.history ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.history li {
+  margin-bottom: 5px;
+  overflow-wrap: break-word;
+}
+
+.history li .calculation {
+  font-weight: bold;
+}
+
+.history li .explanation {
+  margin-left: 15px;
+}
+<script>
+
+// Variável para armazenar o histórico de cálculos
+let calculationsHistory = [];
+
+// Função para adicionar caracteres ao display
+function appendCharacter(character) {
+  const display = document.getElementById('display');
+  display.value += character;
+}
+
+// Função para limpar o display
+function clearDisplay() {
+  const display = document.getElementById('display');
+  display.value = '';
+}
+
+// Função para remover o último caractere do display
+function backspace() {
+  const display = document.getElementById('display');
+  display.value = display.value.slice(0, -1);
+}
+
+// Função para realizar o cálculo e exibir a explicação passo a passo
+function calculate() {
+  const display = document.getElementById('display');
+  const expression = display.value;
+
+  try {
+    const result = eval(expression); // Avalia a expressão
+
+    // Exibe o resultado na calculadora
+    display.value = result;
+
+    // Gera a explicação passo a passo
+    const explanationSteps = document.getElementById('explanation-steps');
+    explanationSteps.innerHTML = '';
+
+    const explanation = `Passo 1: Substitua a expressão "${expression}" por "${result}".`;
+    explanationSteps.innerHTML += `<p>${explanation}</p>`;
+
+    // Adiciona o cálculo ao histórico
+    const calculation = {
+      expression,
+      result,
+      explanation
+    };
+    calculationsHistory.push(calculation);
+
+    // Atualiza o histórico exibido
+    const calcHistoryElement = document.getElementById('calc-history');
+    calcHistoryElement.innerHTML = '';
+
+    calculationsHistory.forEach((calc) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="calculation">${calc.expression} = ${calc.result}</span><br>
+                      <span class="explanation">${calc.explanation}</span>`;
+      calcHistoryElement.appendChild(li);
+    });
+  } catch (error) {
+    // Exibe uma mensagem de erro caso a expressão seja inválida
+    display.value = 'Erro';
+  }
+}
+
+// Função para limpar o histórico de cálculos
+function clearHistory() {
+  calculationsHistory = [];
+  const calcHistoryElement = document.getElementById('calc-history');
+  calcHistoryElement.innerHTML = '';
+}
+
+// Adiciona os ouvintes de eventos aos botões
+document.getElementById('clear-history-btn').addEventListener('click', clearHistory);
+</script>

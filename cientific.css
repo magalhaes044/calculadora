@@ -123,7 +123,24 @@ body {
     font-size: 16px;
   }
   
-  .history p {
+  .history h3 {
+    margin-top: 0;
+  }
+  
+  .history ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .history li {
     margin-bottom: 5px;
     overflow-wrap: break-word;
+  }
+  
+  .history li .calculation {
+    font-weight: bold;
+  }
+  
+  .history li .explanation {
+    margin-left: 15px;
   }
