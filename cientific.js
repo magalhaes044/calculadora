@@ -22,49 +22,30 @@ function deleteLastCharacter() {
 
 function calculate() {
   let result;
-  const display = document.getElementById('display');
-  const expression = display.value;
-
   try {
     result = eval(display.value);
     result = eval(expression);
     display.value = result;
-    const explanationSteps = document.getElementById('explanation-steps');
-    explanationSteps.innerHTML = '';
-
-    const explanation = `Passo 1: Substitua a expressão "${expression}" por "${result}".`;
-    explanationSteps.innerHTML += `<p>${explanation}</p>`;
     generateExplanation(result);
   } catch (error) {
     result = "Erro";
     addExplanationStep("Erro na expressão.");
   }
-  const calculation = {
-    expression,
-    result,
-    explanation
-  };
+  const calculation = `${expression} = ${result}`;
   calculationsHistory.push(calculation);
 
-  // Atualiza o histórico exibido
-  const calcHistoryElement = document.getElementById('calc-history');
-  calcHistoryElement.innerHTML = '';
+  const historyElement = document.getElementById('history');
+  historyElement.innerHTML = '';
 
   calculationsHistory.forEach((calc) => {
-    const li = document.createElement('li');
-    li.innerHTML = `<span class="calculation">${calc.expression} = ${calc.result}</span><br>
-                    <span class="explanation">${calc.explanation}</span>`;
-    calcHistoryElement.appendChild(li);
+    historyElement.innerHTML += `<p>${calc}</p>`;
   });
 }
-
 function clearHistory() {
   calculationsHistory = [];
-  const calcHistoryElement = document.getElementById('calc-history');
-  calcHistoryElement.innerHTML = '';
+  const historyElement = document.getElementById('history');
+  historyElement.innerHTML = '';
 }
-
-document.getElementById('clear-history-btn').addEventListener('click', clearHistory);
  
 function setCursor() {
   display.focus();
