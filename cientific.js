@@ -23,12 +23,12 @@ function calculate() {
   let result;
   try {
     result = eval(display.value);
+    display.value = result;
     generateExplanation(result);
   } catch (error) {
     result = "Erro";
     addExplanationStep("Erro na expressão.");
   }
-  display.value = result;
 }
 
 function toggleScientificMode() {
@@ -54,7 +54,7 @@ function addExplanationStep(step) {
 
   let stepDescription = document.createElement("span");
   stepDescription.classList.add("step-description");
-  stepDescription.textContent = step;
+  stepDescription.innerHTML = step;
 
   stepElement.appendChild(stepNumber);
   stepElement.appendChild(stepDescription);
@@ -64,7 +64,6 @@ function addExplanationStep(step) {
 function clearExplanation() {
   explanationIndex = 1;
   explanationSteps.innerHTML = "";
-  explanationBox.style.display = "none";
   explanationSteps.classList.remove("show");
 }
 
@@ -73,7 +72,6 @@ function generateExplanation(result) {
   explanationIndex = 1;
   explanationSteps.innerHTML = "";
 
-  // Lógica para gerar a explicação passo a passo com base no resultado do cálculo
   if (typeof result === "number") {
     if (result === 0) {
       explanation.push("Passo 1: O resultado é zero.");
@@ -134,6 +132,7 @@ function generateExplanation(result) {
     let paragraph = document.createElement("p");
     paragraph.textContent = step;
     explanationBox.appendChild(paragraph);
+    addExplanationStep(step);
   });
 
   explanationSteps.classList.add("show");
